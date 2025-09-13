@@ -3,6 +3,7 @@ package org.purwa.crud_process.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.purwa.crud_process.enums.ShipmentStatus;
 
 import java.time.Instant;
 import java.util.List;

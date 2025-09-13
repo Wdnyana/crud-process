@@ -1,4 +1,4 @@
-package org.purwa.crud_process.model;
+package org.purwa.crud_process.enums;
 
 public enum ShipmentStatus {
   PROCESSING,
