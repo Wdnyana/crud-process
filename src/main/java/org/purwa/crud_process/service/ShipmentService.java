@@ -4,6 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import org.purwa.crud_process.data.ShipmentDataRequest;
 import org.purwa.crud_process.enums.ShipmentStatus;
@@ -15,6 +16,7 @@ import org.purwa.crud_process.repository.CustomerRepository;
 import org.purwa.crud_process.repository.ProductRespository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ApplicationScoped
@@ -67,4 +69,24 @@ public class ShipmentService {
 
     return objectShipment;
   }
+
+  @Transactional
+  public Shipment updateStatus(Long id, String status) {
+
+    Shipment shipment = em.find(Shipment.class, id);
+    if (shipment == null) {
+      throw new NotFoundException("Shipping with id " + id + " Not Found");
+    }
+
+    ShipmentStatus newStatus;
+    try {
+      newStatus = ShipmentStatus.valueOf(status.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("Status '" + status + "' is not valid!. The available Status are: " + Arrays.toString(ShipmentStatus.values()));
+    }
+
+    shipment.setStatus(newStatus);
+    return em.merge(shipment);
+  }
+
 }
