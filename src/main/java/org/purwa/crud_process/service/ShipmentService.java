@@ -14,10 +14,12 @@ import org.purwa.crud_process.model.Shipment;
 import org.purwa.crud_process.model.ShipmentItem;
 import org.purwa.crud_process.repository.CustomerRepository;
 import org.purwa.crud_process.repository.ProductRespository;
+import org.purwa.crud_process.repository.ShipmentRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ShipmentService {
@@ -29,6 +31,8 @@ public class ShipmentService {
 
   @Inject
   EntityManager em;
+  @Inject
+  ShipmentRepository shipmentRepository;
 
   @Transactional
   public Shipment createShipment(ShipmentDataRequest request) {
@@ -73,10 +77,12 @@ public class ShipmentService {
   @Transactional
   public Shipment updateStatus(Long id, String status) {
 
-    Shipment shipment = em.find(Shipment.class, id);
-    if (shipment == null) {
+    Optional<Shipment> shipment = shipmentRepository.findCustomerWithTheirId(id);
+    if (shipment.isEmpty()) {
       throw new NotFoundException("Shipping with id " + id + " Not Found");
     }
+
+    Shipment getShipment = shipment.get();
 
     ShipmentStatus newStatus;
     try {
@@ -85,8 +91,9 @@ public class ShipmentService {
       throw new BadRequestException("Status '" + status + "' is not valid!. The available Status are: " + Arrays.toString(ShipmentStatus.values()));
     }
 
-    shipment.setStatus(newStatus);
-    return em.merge(shipment);
+    getShipment.setStatus(newStatus);
+    
+    return getShipment;
   }
 
 }

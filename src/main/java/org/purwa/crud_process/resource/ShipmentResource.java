@@ -70,5 +70,4 @@ public class ShipmentResource {
     boolean deleted = shipmentRepository.deleteShipment(id);
     return deleted ? Response.noContent().build() : Response.status(Response.Status.NOT_FOUND).build();
   }
-
 }
