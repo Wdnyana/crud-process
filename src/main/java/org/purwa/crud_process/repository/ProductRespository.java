@@ -18,7 +18,7 @@ public class ProductRespository {
   }
 
   public List<Product> findAllProducts() {
-    return em.createQuery("SELECT P FROM Product p ORDER BY p.name", Product.class).getResultList();
+    return em.createQuery("SELECT p FROM Product p ORDER BY p.name", Product.class).getResultList();
   }
 
   @Transactional

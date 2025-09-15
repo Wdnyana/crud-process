@@ -1,5 +1,6 @@
 package org.purwa.crud_process.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Customer {
   @Column(columnDefinition = "TEXT")
   private String address;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Shipment> shipments;
 

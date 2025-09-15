@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.purwa.crud_process.model.Shipment;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ShipmentRepository {
@@ -31,5 +32,12 @@ public class ShipmentRepository {
     }
 
     return false;
+  }
+
+  public Optional<Shipment> findCustomerWithTheirId(Long id) {
+    return em.createQuery("SELECT s FROM Shipment s JOIN FETCH s.customer WHERE s.id = :id", Shipment.class)
+        .setParameter("id", id)
+        .getResultStream()
+        .findFirst();
   }
 }

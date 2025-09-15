@@ -1,6 +1,7 @@
 package org.purwa.crud_process.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.purwa.crud_process.enums.ShipmentStatus;
@@ -27,6 +28,7 @@ public class Shipment {
   @Column(updatable = false)
   private Instant creationDate;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<ShipmentItem> items;
 
