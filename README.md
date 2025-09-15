@@ -78,15 +78,13 @@ The database configuration (such as the user and password) is automatically sour
 
 Data will be persisted in a Docker volume named postgres_data to prevent data loss when the container is stopped.
 
-## Running the application in dev mode
-
+## ▶️  Packaging and running the application in dev mode
 You can run your application in dev mode that enables live coding using:
+
 
 ```shell script
 ./mvnw quarkus:dev
 ```
-
-## ▶️  Packaging and running the application
 
 The application can be packaged using:
 
